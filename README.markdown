@@ -7,7 +7,9 @@ This plugin a allows answering and reviewing the three daily scrum questions
 It is compatible with versions 2.4.x and 2.5.x.  Other versions may or may not work.
 
 Please report issues to: 
-  https://github.com/ande3577/redmine_daily scrum/issues
+  https://github.com/ande3577/redmine_daily scrum/
+
+THIS PLUGIN IS UNDER EARLY DEVELOPMENT AND MAY NOT BE STABLE
 
 ## Installation
 

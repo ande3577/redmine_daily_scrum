@@ -7,9 +7,11 @@ Redmine::Plugin.register :redmine_daily_scrum do
   author_url 'http://github.com/ande3577'
 
   project_module :daily_scrum do
-    permission :view_daily_scrum, :daily_scrum => [:index, :show]
-    permission :edit_daily_scrum, :daily_scrum => [:create, :new, :edit, :update]
-    permission :view_own_daily_scrum, :daily_scrum => [:index, :show]
-    permission :edit_own_daily_scrum, :daily_scrum => [:create, :new, :edit, :update]
+    permission :view_daily_scrum, :daily_scrums => [:index]
+    permission :edit_daily_scrum, :daily_scrums => [:create, :new, :edit, :update]
+    permission :view_own_daily_scrum, :daily_scrums => [:index]
+    permission :edit_own_daily_scrum, :daily_scrums => [:create, :new, :edit, :update]
+
+    menu :project_menu, :daily_scrum, { :controller => 'daily_scrums', :action => 'index' }, :caption => 'Daily Scrum', :after => :activity, :param => :project_id
   end
 end
