@@ -1,4 +1,5 @@
 require 'redmine_daily_scrum_project_patch'
+require 'redmine_daily_scrum_user_patch'
 
 Redmine::Plugin.register :redmine_daily_scrum do
   name 'Redmine Daily Scrum plugin'
