@@ -1,7 +1,9 @@
 <h2>Daily Scrum</h2>
 <div class="contextual">
-  <%= link_to 'Edit', url_for(:action => :edit, :project_id => @project.identifier, :date => @date), :class => 'icon icon-edit' %>
-   <%= link_to " | \xc2\xab " + l(:label_previous), :action => :index, :project_id => @project.identifier, :date => @date - 1.day %>
+  <% if User.current.allowed_to? :edit_daily_scrum, @project or User.current.allowed_to? :edit_own_daily_scrum, @project  %>
+    <%= link_to 'Edit', url_for(:action => :edit, :project_id => @project.identifier, :date => @date), :class => 'icon icon-edit' %> | 
+  <% end %>
+   <%= link_to "\xc2\xab " + l(:label_previous), :action => :index, :project_id => @project.identifier, :date => @date - 1.day %>
   <% if @date < Date.today %>
   <%= link_to(" | " + l(:label_next) + " \xc2\xbb", :action => :index, :project_id => @project.identifier, :date => @date + 1.day)%>
   <% end %>

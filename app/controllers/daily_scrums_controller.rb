@@ -4,13 +4,14 @@ class DailyScrumsController < ApplicationController
   unloadable
 
   before_filter :get_project, :get_date
+  before_filter :authorize
 
   def index
     get_daily_scrums
   end
 
   def edit
-    get_daily_scrums
+    get_daily_scrums(true)
   end
 
   def update
@@ -36,11 +37,20 @@ class DailyScrumsController < ApplicationController
     end
   end
 
-  def get_daily_scrums
+  def get_daily_scrums(edit = false)
     @daily_scrums = []
-    @project.members.each do |m|
-      @daily_scrums << get_daily_scrum(m.user)
+    if allowed_to_see_all_scrums(User.current, edit)
+      @project.members.each do |m|
+        @daily_scrums << get_daily_scrum(m.user)
+      end
+    elsif @project.users.include?(User.current)
+      @daily_scrums << get_daily_scrum(User.current)
     end
+  end
+
+  def allowed_to_see_all_scrums(user, edit)
+    return user.allowed_to?(:edit_daily_scrum, @project) if edit  
+    user.allowed_to?(:view_daily_scrum, @project)
   end
 
   def get_daily_scrum(user)
