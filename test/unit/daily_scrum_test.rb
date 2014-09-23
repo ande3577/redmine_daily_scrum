@@ -19,6 +19,13 @@ class DailyScrumTest < ActiveSupport::TestCase
     assert !DailyScrum.new(:user => user, :project => project, :date => date).save()
   end
 
+  def test_delete_project
+    daily_scrum = DailyScrum.create!(:user => user, :project => project, :date => Date.today)
+    assert_difference('DailyScrum.count', difference = -1) do 
+      project.destroy
+    end
+  end
+
   private
   def user
     User.active.first
