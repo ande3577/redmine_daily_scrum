@@ -1,3 +1,5 @@
+<% html_title 'Daily Scrum' %>
+
 <h2>Daily Scrum</h2>
 <div class="contextual">
   <% if User.current.allowed_to? :edit_daily_scrum, @project or User.current.allowed_to? :edit_own_daily_scrum, @project  %>
