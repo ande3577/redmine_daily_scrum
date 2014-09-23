@@ -12,13 +12,16 @@
 </div>
 <p><em><%= @date %></em>
 
-
-<% @daily_scrums.each do |scrum| %>
-  <h3><%= scrum.user.to_s %></h3>
-  <h4>What I did yesterday</h4>
-  <%= display_scrum_answer(scrum.what_did_i_do_yesterday) %>
-  <h4>What am I doing today</h4>
-  <%= display_scrum_answer(scrum.what_am_i_doing_today) %>
-  <h4>What's standing in my way</h4>
-  <%= display_scrum_answer(scrum.what_is_standing_in_my_way) %>
+<% if @daily_scrums.any? %>
+  <% @daily_scrums.each do |scrum| %>
+    <h3><%= scrum.user.to_s %></h3>
+    <h4>What I did yesterday</h4>
+    <%= display_scrum_answer(scrum.what_did_i_do_yesterday) %>
+    <h4>What am I doing today</h4>
+    <%= display_scrum_answer(scrum.what_am_i_doing_today) %>
+    <h4>What's standing in my way</h4>
+    <%= display_scrum_answer(scrum.what_is_standing_in_my_way) %>
+  <% end %>
+<% else %>
+  <%= "<p class=\"nodata\">#{l(:label_no_data)}</p>".html_safe() %>
 <% end %>

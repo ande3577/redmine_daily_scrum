@@ -1,6 +1,7 @@
 <h2>Daily Scrum</h2>
 <p><em><%= @date %></em></p>
 
+<% if @daily_scrums.any? %>
 <div class="box tabular">
   <%= form_tag 'update', :method => :put do %>
     <%= hidden_field_tag 'date', @date %>
@@ -13,3 +14,6 @@
     <%= submit_tag %>
   <% end %>
 </div>
+<% else %>
+  <%= "<p class=\"nodata\">#{l(:label_no_data)}</p>".html_safe() %>
+<% end %>
