@@ -1,9 +1,12 @@
 <% html_title 'Daily Scrum' %>
 
-<h2>Daily Scrum</h2>
 <div class="contextual">
-  <% if User.current.allowed_to? :edit_daily_scrum, @project or User.current.allowed_to? :edit_own_daily_scrum, @project  %>
-    <%= link_to 'Edit', url_for(:action => :edit, :project_id => @project.identifier, :date => @date), :class => 'icon icon-edit' %> | 
+  <%= link_to('Manage Members', url_for(:controller => :scrum_team_members, :action => :index, :project_id => @project.identifier)) if User.current.allowed_to?(:manage_scrum_members, @project) %>
+
+  <% if @daily_scrums.any? %>
+    <% if User.current.allowed_to? :edit_daily_scrum, @project or User.current.allowed_to? :edit_own_daily_scrum, @project  %>
+      <%= link_to 'Edit', url_for(:action => :edit, :project_id => @project.identifier, :date => @date), :class => 'icon icon-edit' %> | 
+    <% end %>
   <% end %>
    <%= link_to "\xc2\xab " + l(:label_previous), :action => :index, :project_id => @project.identifier, :date => @date - 1.day %>
   <% if @date < Date.today %>
@@ -12,6 +15,8 @@
   <%= hidden_field_tag :date, @date, :onchange => 'window.location.href = "daily_scrum?date=" + document.getElementById("date").value' %>
   <%= calendar_for :date %>
 </div>
+
+<h2>Daily Scrum</h2>
 <p><em><%= @date %></em>
 
 <% if @daily_scrums.any? %>

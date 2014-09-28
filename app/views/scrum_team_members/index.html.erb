@@ -1,0 +1,52 @@
+<% html_title 'Scrum Team Members' %>
+
+<%= error_messages_for 'member' %>
+<% members = @project.scrum_team_members.sorted.all %>
+
+<div class="contextual">
+  <%= link_to "\xc2\xab " + 'Daily Scrum', url_for(:controller => :daily_scrums, :action => :index, :project_id => @project.identifier) %>
+</div>
+
+<h2>Scrum Team Members</h2>
+
+<div class="splitcontentleft">
+<% if members.any? %>
+<table class="list members">
+  <thead>
+    <tr>
+      <th>Scrum Member</th>
+      <th style="width:15%"></th>
+      <th style="width:15%"></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% members.each do |member| %>
+  <% next if member.new_record? %>
+  <tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member">
+  <td class="name <%= member.user.class.name.downcase %>"><%= link_to_user member.user %></td>
+  <td align="center" style="width:15%;"><%= reorder_links('scrum_team_member', {:controller => 'scrum_team_members', :action => 'update', :id => member}, :put) %></td>
+  <td class="buttons">
+      <%= delete_link :action => :destroy, :id => member.id %>
+  </td>
+  </tr>
+<% end; reset_cycle %>
+  </tbody>
+</table>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+</div>
+
+<div class="splitcontentright">
+  <%= form_for(@member,
+               {:as => :membership, :url => {:project_id => @project, :action => :create},
+                :method => :post}) do |f| %>
+    <fieldset>
+      <legend><%=l(:label_member_new)%></legend>
+      <div id="principals_for_new_member">
+        <%= render_users_for_new_scrum_members(@project) %>
+      </div>
+      <p><%= submit_tag l(:button_add), :id => 'member-add-submit' %></p>
+    </fieldset>
+  <% end %>
+</div>

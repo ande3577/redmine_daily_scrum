@@ -14,7 +14,7 @@ Redmine::Plugin.register :redmine_daily_scrum do
     permission :edit_daily_scrum, :daily_scrums => [:create, :new, :edit, :update]
     permission :view_own_daily_scrum, :daily_scrums => [:index]
     permission :edit_own_daily_scrum, :daily_scrums => [:create, :new, :edit, :update]
-    permission :appears_in_daily_scrum, :daily_scrums => [:placeholder]
+    permission :manage_scrum_members, :scrum_team_members => [:index, :update, :create, :destroy]
 
     menu :project_menu, :daily_scrums, { :controller => 'daily_scrums', :action => 'index' }, :caption => 'Daily Scrum', :after => :activity, :param => :project_id
   end

@@ -44,7 +44,8 @@ class DailyScrumsController < ApplicationController
   def get_daily_scrums(edit = false)
     @daily_scrums = []
     if allowed_to_see_all_scrums(User.current, edit)
-      @project.users.sorted.each do |user|
+      @project.scrum_team_members.sorted.each do |m|
+        user = m.user
         @daily_scrums << get_daily_scrum(user) if appears_in_scrum?(user)
       end
     elsif appears_in_scrum?(User.current)
@@ -64,6 +65,6 @@ class DailyScrumsController < ApplicationController
   end
 
   def appears_in_scrum?(user)
-    @project.users.include?(user) and user.allowed_to? :appears_in_daily_scrum, @project
+    @project.is_scrum_team_member?(user)
   end
 end
