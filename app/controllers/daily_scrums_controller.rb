@@ -8,10 +8,12 @@ class DailyScrumsController < ApplicationController
 
   def index
     get_daily_scrums
+    get_post_scrum_actions
   end
 
   def edit
     get_daily_scrums(true)
+    get_post_scrum_actions(true)
   end
 
   def update
@@ -24,6 +26,11 @@ class DailyScrumsController < ApplicationController
           scrum.save
         end
       end
+    end
+    if User.current.allowed_to?(:edit_daily_scrum, @project) and params[:post_scrum_actions]
+      actions = get_post_scrum_actions(true)
+      @actions.safe_attributes = params[:post_scrum_actions]
+      actions.save
     end
     redirect_to :action => :index, :project_id => @project.identifier, :date => @date
   end
@@ -50,6 +57,15 @@ class DailyScrumsController < ApplicationController
       end
     elsif appears_in_scrum?(User.current)
       @daily_scrums << get_daily_scrum(User.current)
+    end
+  end
+
+  def get_post_scrum_actions(edit = false)
+    @actions = PostScrumAction.where(:project_id => @project.id, :date => @date)
+    if @actions.any?
+      @actions = @actions.first 
+    else
+      @actions = PostScrumAction.new(:project => @project, :date => @date)
     end
   end
 

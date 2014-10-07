@@ -7,6 +7,7 @@ module RedmineDailyScrumUserPatch
     base.class_eval do
       has_many :daily_scrums, :dependent => :destroy
       has_many :scrum_team_members, :dependent => :destroy
+      has_many :post_scrum_actions, :dependent => :destroy
     end
   end
   

@@ -20,9 +20,19 @@
 <p><em><%= localize @date, :format => :long %></em>
 
 <% if @daily_scrums.any? %>
+  <h2>Scrum Team Members</h2>
   <% @daily_scrums.each do |scrum| %>
     <%= render :partial => 'daily_scrum', :locals => { :scrum => scrum } %>
   <% end %>
 <% else %>
   <%= "<p class=\"nodata\">#{l(:label_no_data)}</p>".html_safe() %>
+<% end %>
+
+<% if User.current.allowed_to?(:view_daily_scrum, @project) %>
+  <h2>Post Scrum Actions</h2>
+  <% if @actions.empty? %>
+    <%= "<p class=\"nodata\">#{l(:label_no_data)}</p>".html_safe() %>
+  <% else %>
+    <%= display_scrum_answer(@actions.actions) %>
+  <% end %>
 <% end %>

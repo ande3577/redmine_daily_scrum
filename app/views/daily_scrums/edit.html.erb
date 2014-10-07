@@ -3,19 +3,29 @@
 <h2>Daily Scrum</h2>
 <p><em><%= @date %></em></p>
 
-<% if @daily_scrums.any? %>
-<div class="box tabular">
+<% if @daily_scrums.any? or User.current.allowed_to?(:edit_daily_scrum, @project) %>
+  <div class="box tabular">
   <%= form_tag 'update', :method => :put do %>
     <%= hidden_field_tag 'date', @date %>
+    <% if @daily_scrums.any? %>
+      <h2>Scrum Team Members</h2>
+    <% end %>
     <% @daily_scrums.each do |scrum| %>
       <h3><%= scrum.user.to_s %></h3>
       <%= display_scrum_field('what_did_i_do_yesterday', "What I did yesterday", scrum) %>
       <%= display_scrum_field('what_am_i_doing_today', "What am I doing today", scrum) %>
       <%= display_scrum_field('what_is_standing_in_my_way', "What is standing in my way", scrum) %>
     <% end %>
-    <%= submit_tag %>
+
+    <% if User.current.allowed_to?(:edit_daily_scrum, @project) %>
+        <h2>Post Scrum Actions</h2>
+        <p><%= label_tag('post_scrum_actions', "Post Scrum Actions") %>
+        <%= text_area_tag('post_scrum_actions[actions]', content=@actions.actions) %>
+    <% end %>
+    
+    <%= submit_tag %> 
   <% end %>
-</div>
+  </div>
 <% else %>
-  <%= "<p class=\"nodata\">#{l(:label_no_data)}</p>".html_safe() %>
+    <%= "<p class=\"nodata\">#{l(:label_no_data)}</p>".html_safe() %>
 <% end %>
