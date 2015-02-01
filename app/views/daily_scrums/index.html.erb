@@ -1,11 +1,11 @@
-<% html_title 'Daily Scrum' %>
+<% html_title l(:daily_scrum_title) %>
 
 <div class="contextual">
-  <%= link_to('Manage Members', url_for(:controller => :scrum_team_members, :action => :index, :project_id => @project.identifier)) if User.current.allowed_to?(:manage_scrum_members, @project) %>
+  <%= link_to(l(:daily_scrum_manage_members), url_for(:controller => :scrum_team_members, :action => :index, :project_id => @project.identifier)) if User.current.allowed_to?(:manage_scrum_members, @project) %>
 
   <% if @daily_scrums.any? %>
     <% if User.current.allowed_to? :edit_daily_scrum, @project or User.current.allowed_to? :edit_own_daily_scrum, @project  %>
-      <%= link_to 'Edit', url_for(:action => :edit, :project_id => @project.identifier, :date => @date), :class => 'icon icon-edit' %> | 
+      <%= link_to l(:button_edit), url_for(:action => :edit, :project_id => @project.identifier, :date => @date), :class => 'icon icon-edit' %> | 
     <% end %>
   <% end %>
    <%= link_to "\xc2\xab " + l(:label_previous), :action => :index, :project_id => @project.identifier, :date => @date - 1.day %>
@@ -16,11 +16,11 @@
   <%= calendar_for :date %>
 </div>
 
-<h2>Daily Scrum</h2>
+<h2><%= l(:daily_scrum_title) %></h2>
 <p><em><%= localize @date, :format => :long %></em>
 
 <% if @daily_scrums.any? %>
-  <h2>Scrum Team Members</h2>
+  <h2><%= l(:daily_scrum_team_members) %></h2>
   <% @daily_scrums.each do |scrum| %>
     <%= render :partial => 'daily_scrum', :locals => { :scrum => scrum } %>
   <% end %>
@@ -29,7 +29,7 @@
 <% end %>
 
 <% if User.current.allowed_to?(:view_daily_scrum, @project) %>
-  <h2>Post Scrum Actions</h2>
+  <h2><%= l(:daily_scrum_post_scrum_actions) %></h2>
   <% if @actions.empty? %>
     <%= "<p class=\"nodata\">#{l(:label_no_data)}</p>".html_safe() %>
   <% else %>

@@ -1,4 +1,4 @@
-<% html_title 'Scrum Team Members' %>
+<% html_title l(:daily_scrum_team_members) %>
 
 <%= error_messages_for 'member' %>
 <% members = @project.scrum_team_members.sorted.all %>
@@ -7,14 +7,14 @@
   <%= link_to "\xc2\xab " + 'Daily Scrum', url_for(:controller => :daily_scrums, :action => :index, :project_id => @project.identifier) %>
 </div>
 
-<h2>Scrum Team Members</h2>
+<h2><%= l(:daily_scrum_team_members) %></h2>
 
 <div class="splitcontentleft">
 <% if members.any? %>
 <table class="list members">
   <thead>
     <tr>
-      <th>Scrum Member</th>
+      <th><%= l(:daily_scrum_member) %></th>
       <th style="width:15%"></th>
       <th style="width:15%"></th>
     </tr>

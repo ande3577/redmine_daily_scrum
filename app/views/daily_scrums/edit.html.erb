@@ -1,6 +1,6 @@
-<% html_title 'Daily Scrum' %>
+<% html_title l(:daily_scrum_title) %>
 
-<h2>Daily Scrum</h2>
+<h2><%= l(:daily_scrum_title) %></h2>
 <p><em><%= @date %></em></p>
 
 <% if @daily_scrums.any? or User.current.allowed_to?(:edit_daily_scrum, @project) %>
@@ -8,18 +8,18 @@
   <%= form_tag 'update', :method => :put do %>
     <%= hidden_field_tag 'date', @date %>
     <% if @daily_scrums.any? %>
-      <h2>Scrum Team Members</h2>
+      <h2><%= l(:daily_scrum_team_members) %></h2>
     <% end %>
     <% @daily_scrums.each do |scrum| %>
       <h3><%= scrum.user.to_s %></h3>
-      <%= display_scrum_field('what_did_i_do_yesterday', "What I did yesterday", scrum) %>
-      <%= display_scrum_field('what_am_i_doing_today', "What am I doing today", scrum) %>
-      <%= display_scrum_field('what_is_standing_in_my_way', "What is standing in my way", scrum) %>
+      <%= display_scrum_field('what_did_i_do_yesterday', l(:daily_scrum_what_i_did_yesterday), scrum) %>
+      <%= display_scrum_field('what_am_i_doing_today', l(:daily_scrum_what_am_i_doing_today), scrum) %>
+      <%= display_scrum_field('what_is_standing_in_my_way', l(:daily_scrum_whats_standing_in_my_way), scrum) %>
     <% end %>
 
     <% if User.current.allowed_to?(:edit_daily_scrum, @project) %>
-        <h2>Post Scrum Actions</h2>
-        <p><%= label_tag('post_scrum_actions', "Post Scrum Actions") %>
+        <h2><%= l(:daily_scrum_post_scrum_actions) %></h2>
+        <p><%= label_tag('post_scrum_actions', l(:daily_scrum_post_scrum_actions)) %>
         <%= text_area_tag('post_scrum_actions[actions]', content=@actions.actions) %>
     <% end %>
     

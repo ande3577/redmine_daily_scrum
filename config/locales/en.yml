@@ -1,3 +1,11 @@
 # English strings go here for Rails i18n
 en:
   # my_label: "My label"
+  daily_scrum_what_i_did_yesterday: What I did yesterday
+  daily_scrum_what_am_i_doing_today: What am I doing today
+  daily_scrum_whats_standing_in_my_way: What's standing in my way
+  daily_scrum_title: Daily Scrum
+  daily_scrum_team_members: Scrum Team Members
+  daily_scrum_post_scrum_actions: Post Scrum Actions
+  daily_scrum_manage_members: Manage Members
+  daily_scrum_member: Scrum Member
