@@ -36,3 +36,7 @@
     <%= display_scrum_answer(@actions.actions) %>
   <% end %>
 <% end %>
+
+<% other_formats_links do |f| %>
+  <%= f.link_to 'PDF', :url => { :date => @date } %>
+<% end %>

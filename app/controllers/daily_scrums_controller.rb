@@ -3,12 +3,22 @@ require 'date'
 class DailyScrumsController < ApplicationController
   unloadable
 
+  include Redmine::Export::PDF
+
   before_filter :get_project, :get_date
   before_filter :authorize
 
   def index
     get_daily_scrums
     get_post_scrum_actions
+
+    respond_to do |format|
+      format.html
+      format.pdf  {
+        pdf = daily_scrum_to_pdf(@project, @daily_scrums, @actions, @date)
+        send_data(pdf, :type => 'application/pdf', :filename => "daily_scrum.pdf")
+      }
+    end
   end
 
   def edit

@@ -1,3 +1,4 @@
+require 'redmine_daily_scrum_export_pdf_patch'
 require 'redmine_daily_scrum_project_patch'
 require 'redmine_daily_scrum_user_patch'
 
