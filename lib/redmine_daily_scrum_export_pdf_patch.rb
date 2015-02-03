@@ -32,19 +32,19 @@ module RedmineDailyScrumProjectPatch
         buf = l(:daily_scrum_what_i_did_yesterday)
         pdf.RDMMultiCell(190, 5, buf)
         pdf.SetFontStyle('', 9)
-        pdf.RDMwriteHTMLCell(0, 5, 10, '', s.what_did_i_do_yesterday, [])
+        write_daily_scrum_html_cell(pdf,  s.what_did_i_do_yesterday)
 
         pdf.SetFontStyle('I', 9)
         buf = l(:daily_scrum_what_am_i_doing_today)
         pdf.RDMMultiCell(190, 5, buf)
         pdf.SetFontStyle('', 9)
-        pdf.RDMwriteHTMLCell(0, 5, 10, '', s.what_am_i_doing_today, [])
+        write_daily_scrum_html_cell(pdf,  s.what_am_i_doing_today)
 
         pdf.SetFontStyle('I', 9)
         buf = l(:daily_scrum_whats_standing_in_my_way)
         pdf.RDMMultiCell(190, 5, buf)
         pdf.SetFontStyle('', 9)
-        pdf.RDMwriteHTMLCell(0, 5, 10, '', s.what_is_standing_in_my_way, [])
+        write_daily_scrum_html_cell(pdf,  s.what_is_standing_in_my_way)
       end
 
       if User.current.allowed_to?(:view_daily_scrum, @project)
@@ -56,13 +56,22 @@ module RedmineDailyScrumProjectPatch
           buf = l(:label_no_data)
           pdf.RDMMultiCell(190, 5, buf)
         else
-          pdf.RDMwriteHTMLCell(0, 5, 10, '', post_scrum_actions.actions, [])
+          write_daily_scrum_html_cell(pdf,  post_scrum_actions.actions)
         end
       end
     end
 
     pdf.output
   end   
+
+  private
+  def write_daily_scrum_html_cell(pdf, str)
+    if Redmine::VERSION::MAJOR < 2 or Redmine::VERSION::MINOR < 6
+      pdf.RDMwriteHTMLCell(0, 5, 10, 0, str, [])
+    else
+      pdf.RDMwriteHTMLCell(0, 5, 10, '', str, [])
+    end
+  end
 end
 
 
